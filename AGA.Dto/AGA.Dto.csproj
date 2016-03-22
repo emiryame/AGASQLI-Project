@@ -40,12 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mapping\AutorisationCoursVacationMapping.cs" />
+    <Compile Include="Mapping\AutorisationPoursuiteEtudesMapping.cs" />
     <Compile Include="Mapping\CollaborateurMapping.cs" />
     <Compile Include="Mapping\DemandeMapping.cs" />
     <Compile Include="Mapping\NotificationEmailMapping.cs" />
     <Compile Include="Mapping\StatutMapping.cs" />
     <Compile Include="Mapping\TypeAttestationMapping.cs" />
     <Compile Include="Models\AttestationConge.cs" />
+    <Compile Include="Models\AutorisationCoursVacation.cs" />
+    <Compile Include="Models\AutorisationPoursuiteEtudes.cs" />
     <Compile Include="Models\Collaborateur.cs" />
     <Compile Include="Models\Demande.cs" />
     <Compile Include="Models\NotificationEmail.cs" />

@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/21/2016 14:14:42
--- Generated from EDMX file: C:\Users\Miryame\documents\visual studio 2015\Projects\Projet AGA\AGA.Data\AGADataBase.edmx
+-- Date Created: 03/22/2016 09:23:28
+-- Generated from EDMX file: C:\Users\Miryame\Documents\Visual Studio 2015\Projects\AGASQLI\AGA.Data\AGADataBase.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -17,11 +17,47 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_DemandeTypeAttestation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DemandeSet] DROP CONSTRAINT [FK_DemandeTypeAttestation];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AttestationCongeDemande]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AttestationCongeSet] DROP CONSTRAINT [FK_AttestationCongeDemande];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CollaborateurDemande]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DemandeSet] DROP CONSTRAINT [FK_CollaborateurDemande];
+GO
+IF OBJECT_ID(N'[dbo].[FK_DemandeStatut]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DemandeSet] DROP CONSTRAINT [FK_DemandeStatut];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CollaborateurAssistante]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DemandeSet] DROP CONSTRAINT [FK_CollaborateurAssistante];
+GO
+IF OBJECT_ID(N'[dbo].[FK_EmailContenuDemande]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DemandeSet] DROP CONSTRAINT [FK_EmailContenuDemande];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[DemandeSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[DemandeSet];
+GO
+IF OBJECT_ID(N'[dbo].[TypeAttestationSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TypeAttestationSet];
+GO
+IF OBJECT_ID(N'[dbo].[StatutSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[StatutSet];
+GO
+IF OBJECT_ID(N'[dbo].[CollaborateurSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CollaborateurSet];
+GO
+IF OBJECT_ID(N'[dbo].[AttestationCongeSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AttestationCongeSet];
+GO
+IF OBJECT_ID(N'[dbo].[NotificationEmailSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[NotificationEmailSet];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -29,62 +65,80 @@ GO
 
 -- Creating table 'DemandeSet'
 CREATE TABLE [dbo].[DemandeSet] (
-    [id] int IDENTITY(1,1) NOT NULL,
-    [dateCreation] datetime  NOT NULL,
-    [dateDebutTraitement] datetime  NULL,
-    [dateFinTraitement] datetime  NULL,
-    [TypeAttestation_id] int  NOT NULL,
-    [Collaborateur_id] int  NOT NULL,
-    [Statut_id] int  NOT NULL,
-    [Assistante_id] int  NOT NULL,
-    [EmailContenu_id] int  NOT NULL
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [DateCreation] datetime  NOT NULL,
+    [DateDebutTraitement] datetime  NULL,
+    [DateFinTraitement] datetime  NULL,
+    [TypeAttestation_Id] int  NOT NULL,
+    [Collaborateur_Id] int  NOT NULL,
+    [Statut_Id] int  NOT NULL,
+    [Assistante_Id] int  NOT NULL,
+    [EmailContenu_Id] int  NOT NULL
 );
 GO
 
 -- Creating table 'TypeAttestationSet'
 CREATE TABLE [dbo].[TypeAttestationSet] (
-    [id] int IDENTITY(1,1) NOT NULL,
-    [code] nvarchar(max)  NOT NULL,
-    [label] nvarchar(max)  NOT NULL
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Code] nvarchar(max)  NOT NULL,
+    [Label] nvarchar(max)  NOT NULL
 );
 GO
 
 -- Creating table 'StatutSet'
 CREATE TABLE [dbo].[StatutSet] (
-    [id] int IDENTITY(1,1) NOT NULL,
-    [code] nvarchar(max)  NOT NULL,
-    [label] nvarchar(max)  NOT NULL
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Code] nvarchar(max)  NOT NULL,
+    [Label] nvarchar(max)  NOT NULL
 );
 GO
 
 -- Creating table 'CollaborateurSet'
 CREATE TABLE [dbo].[CollaborateurSet] (
-    [id] int IDENTITY(1,1) NOT NULL,
-    [nom] nvarchar(max)  NOT NULL,
-    [prenom] nvarchar(max)  NOT NULL,
-    [cin] nvarchar(max)  NULL,
-    [cnss] nvarchar(max)  NULL,
-    [poste] nvarchar(max)  NULL,
-    [dateDebutTravail] datetime  NULL,
-    [banque] nvarchar(max)  NULL,
-    [isEligible] bit  NOT NULL
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Nom] nvarchar(max)  NOT NULL,
+    [Prenom] nvarchar(max)  NOT NULL,
+    [Cin] nvarchar(max)  NULL,
+    [Cnss] nvarchar(max)  NULL,
+    [Poste] nvarchar(max)  NULL,
+    [DateDebutTravail] datetime  NULL,
+    [Banque] nvarchar(max)  NULL,
+    [IsEligible] bit  NOT NULL
 );
 GO
 
 -- Creating table 'AttestationCongeSet'
 CREATE TABLE [dbo].[AttestationCongeSet] (
-    [id] int IDENTITY(1,1) NOT NULL,
-    [dateDebut] nvarchar(max)  NOT NULL,
-    [dateFin] nvarchar(max)  NOT NULL,
-    [Demande_id] int  NOT NULL
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [DateDebut] nvarchar(max)  NOT NULL,
+    [DateFin] nvarchar(max)  NOT NULL,
+    [AttestationCongeDemande_AttestationConge_Id] int  NOT NULL
 );
 GO
 
 -- Creating table 'NotificationEmailSet'
 CREATE TABLE [dbo].[NotificationEmailSet] (
-    [id] int IDENTITY(1,1) NOT NULL,
-    [objet] nvarchar(max)  NOT NULL,
-    [contenu] nvarchar(max)  NOT NULL
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Objet] nvarchar(max)  NOT NULL,
+    [Contenu] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'AutorisationPoursuiteEtudesSet'
+CREATE TABLE [dbo].[AutorisationPoursuiteEtudesSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Etablissement] nvarchar(max)  NOT NULL,
+    [AnneeScolaire] nvarchar(max)  NOT NULL,
+    [DemandeAutorisationPoursuiteEtudes_AutorisationPoursuiteEtudes_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'AutorisationCoursVacationSet'
+CREATE TABLE [dbo].[AutorisationCoursVacationSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Etablissement] nvarchar(max)  NOT NULL,
+    [AnneeScolaire] nvarchar(max)  NOT NULL,
+    [AutorisationCoursVacationDemande_AutorisationCoursVacation_Id] int  NOT NULL
 );
 GO
 
@@ -92,134 +146,176 @@ GO
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
 
--- Creating primary key on [id] in table 'DemandeSet'
+-- Creating primary key on [Id] in table 'DemandeSet'
 ALTER TABLE [dbo].[DemandeSet]
 ADD CONSTRAINT [PK_DemandeSet]
-    PRIMARY KEY CLUSTERED ([id] ASC);
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [id] in table 'TypeAttestationSet'
+-- Creating primary key on [Id] in table 'TypeAttestationSet'
 ALTER TABLE [dbo].[TypeAttestationSet]
 ADD CONSTRAINT [PK_TypeAttestationSet]
-    PRIMARY KEY CLUSTERED ([id] ASC);
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [id] in table 'StatutSet'
+-- Creating primary key on [Id] in table 'StatutSet'
 ALTER TABLE [dbo].[StatutSet]
 ADD CONSTRAINT [PK_StatutSet]
-    PRIMARY KEY CLUSTERED ([id] ASC);
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [id] in table 'CollaborateurSet'
+-- Creating primary key on [Id] in table 'CollaborateurSet'
 ALTER TABLE [dbo].[CollaborateurSet]
 ADD CONSTRAINT [PK_CollaborateurSet]
-    PRIMARY KEY CLUSTERED ([id] ASC);
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [id] in table 'AttestationCongeSet'
+-- Creating primary key on [Id] in table 'AttestationCongeSet'
 ALTER TABLE [dbo].[AttestationCongeSet]
 ADD CONSTRAINT [PK_AttestationCongeSet]
-    PRIMARY KEY CLUSTERED ([id] ASC);
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [id] in table 'NotificationEmailSet'
+-- Creating primary key on [Id] in table 'NotificationEmailSet'
 ALTER TABLE [dbo].[NotificationEmailSet]
 ADD CONSTRAINT [PK_NotificationEmailSet]
-    PRIMARY KEY CLUSTERED ([id] ASC);
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AutorisationPoursuiteEtudesSet'
+ALTER TABLE [dbo].[AutorisationPoursuiteEtudesSet]
+ADD CONSTRAINT [PK_AutorisationPoursuiteEtudesSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AutorisationCoursVacationSet'
+ALTER TABLE [dbo].[AutorisationCoursVacationSet]
+ADD CONSTRAINT [PK_AutorisationCoursVacationSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- --------------------------------------------------
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [TypeAttestation_id] in table 'DemandeSet'
+-- Creating foreign key on [TypeAttestation_Id] in table 'DemandeSet'
 ALTER TABLE [dbo].[DemandeSet]
 ADD CONSTRAINT [FK_DemandeTypeAttestation]
-    FOREIGN KEY ([TypeAttestation_id])
+    FOREIGN KEY ([TypeAttestation_Id])
     REFERENCES [dbo].[TypeAttestationSet]
-        ([id])
+        ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_DemandeTypeAttestation'
 CREATE INDEX [IX_FK_DemandeTypeAttestation]
 ON [dbo].[DemandeSet]
-    ([TypeAttestation_id]);
+    ([TypeAttestation_Id]);
 GO
 
--- Creating foreign key on [Demande_id] in table 'AttestationCongeSet'
+-- Creating foreign key on [AttestationCongeDemande_AttestationConge_Id] in table 'AttestationCongeSet'
 ALTER TABLE [dbo].[AttestationCongeSet]
 ADD CONSTRAINT [FK_AttestationCongeDemande]
-    FOREIGN KEY ([Demande_id])
+    FOREIGN KEY ([AttestationCongeDemande_AttestationConge_Id])
     REFERENCES [dbo].[DemandeSet]
-        ([id])
+        ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_AttestationCongeDemande'
 CREATE INDEX [IX_FK_AttestationCongeDemande]
 ON [dbo].[AttestationCongeSet]
-    ([Demande_id]);
+    ([AttestationCongeDemande_AttestationConge_Id]);
 GO
 
--- Creating foreign key on [Collaborateur_id] in table 'DemandeSet'
+-- Creating foreign key on [Collaborateur_Id] in table 'DemandeSet'
 ALTER TABLE [dbo].[DemandeSet]
 ADD CONSTRAINT [FK_CollaborateurDemande]
-    FOREIGN KEY ([Collaborateur_id])
+    FOREIGN KEY ([Collaborateur_Id])
     REFERENCES [dbo].[CollaborateurSet]
-        ([id])
+        ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_CollaborateurDemande'
 CREATE INDEX [IX_FK_CollaborateurDemande]
 ON [dbo].[DemandeSet]
-    ([Collaborateur_id]);
+    ([Collaborateur_Id]);
 GO
 
--- Creating foreign key on [Statut_id] in table 'DemandeSet'
+-- Creating foreign key on [Statut_Id] in table 'DemandeSet'
 ALTER TABLE [dbo].[DemandeSet]
 ADD CONSTRAINT [FK_DemandeStatut]
-    FOREIGN KEY ([Statut_id])
+    FOREIGN KEY ([Statut_Id])
     REFERENCES [dbo].[StatutSet]
-        ([id])
+        ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_DemandeStatut'
 CREATE INDEX [IX_FK_DemandeStatut]
 ON [dbo].[DemandeSet]
-    ([Statut_id]);
+    ([Statut_Id]);
 GO
 
--- Creating foreign key on [Assistante_id] in table 'DemandeSet'
+-- Creating foreign key on [Assistante_Id] in table 'DemandeSet'
 ALTER TABLE [dbo].[DemandeSet]
 ADD CONSTRAINT [FK_CollaborateurAssistante]
-    FOREIGN KEY ([Assistante_id])
+    FOREIGN KEY ([Assistante_Id])
     REFERENCES [dbo].[CollaborateurSet]
-        ([id])
+        ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_CollaborateurAssistante'
 CREATE INDEX [IX_FK_CollaborateurAssistante]
 ON [dbo].[DemandeSet]
-    ([Assistante_id]);
+    ([Assistante_Id]);
 GO
 
--- Creating foreign key on [EmailContenu_id] in table 'DemandeSet'
+-- Creating foreign key on [EmailContenu_Id] in table 'DemandeSet'
 ALTER TABLE [dbo].[DemandeSet]
 ADD CONSTRAINT [FK_EmailContenuDemande]
-    FOREIGN KEY ([EmailContenu_id])
+    FOREIGN KEY ([EmailContenu_Id])
     REFERENCES [dbo].[NotificationEmailSet]
-        ([id])
+        ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_EmailContenuDemande'
 CREATE INDEX [IX_FK_EmailContenuDemande]
 ON [dbo].[DemandeSet]
-    ([EmailContenu_id]);
+    ([EmailContenu_Id]);
+GO
+
+-- Creating foreign key on [AutorisationCoursVacationDemande_AutorisationCoursVacation_Id] in table 'AutorisationCoursVacationSet'
+ALTER TABLE [dbo].[AutorisationCoursVacationSet]
+ADD CONSTRAINT [FK_AutorisationCoursVacationDemande]
+    FOREIGN KEY ([AutorisationCoursVacationDemande_AutorisationCoursVacation_Id])
+    REFERENCES [dbo].[DemandeSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AutorisationCoursVacationDemande'
+CREATE INDEX [IX_FK_AutorisationCoursVacationDemande]
+ON [dbo].[AutorisationCoursVacationSet]
+    ([AutorisationCoursVacationDemande_AutorisationCoursVacation_Id]);
+GO
+
+-- Creating foreign key on [DemandeAutorisationPoursuiteEtudes_AutorisationPoursuiteEtudes_Id] in table 'AutorisationPoursuiteEtudesSet'
+ALTER TABLE [dbo].[AutorisationPoursuiteEtudesSet]
+ADD CONSTRAINT [FK_DemandeAutorisationPoursuiteEtudes]
+    FOREIGN KEY ([DemandeAutorisationPoursuiteEtudes_AutorisationPoursuiteEtudes_Id])
+    REFERENCES [dbo].[DemandeSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_DemandeAutorisationPoursuiteEtudes'
+CREATE INDEX [IX_FK_DemandeAutorisationPoursuiteEtudes]
+ON [dbo].[AutorisationPoursuiteEtudesSet]
+    ([DemandeAutorisationPoursuiteEtudes_AutorisationPoursuiteEtudes_Id]);
 GO
 
 -- --------------------------------------------------

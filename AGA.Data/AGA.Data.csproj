@@ -70,6 +70,12 @@
     <Compile Include="AttestationConge.cs">
       <DependentUpon>AGADataBase.tt</DependentUpon>
     </Compile>
+    <Compile Include="AutorisationCoursVacation.cs">
+      <DependentUpon>AGADataBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AutorisationPoursuiteEtudes.cs">
+      <DependentUpon>AGADataBase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Collaborateur.cs">
       <DependentUpon>AGADataBase.tt</DependentUpon>
     </Compile>

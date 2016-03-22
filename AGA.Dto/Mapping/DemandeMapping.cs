@@ -22,7 +22,8 @@ namespace AGA.Dto.Mapping
             demandeDto.Id = demandeDto.Id;
             demandeDto.Statut = StatutMapping.EntityToDto(demande.Statut);
             demandeDto.TypeAttestation = TypeAttestationMapping.EntityToDto(demande.TypeAttestation);
-
+            demandeDto.AutorisationCoursVacation = AutorisationCoursVacationMapping.EntityToDto(demande.AutorisationCoursVacation);
+            demandeDto.AutorisationPoursuiteEtudes = AutorisationPoursuiteEtudesMapping.EntityToDto(demande.AutorisationPoursuiteEtudes);
             return demandeDto;
         }
     }

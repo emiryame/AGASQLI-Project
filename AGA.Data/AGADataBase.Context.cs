@@ -31,5 +31,7 @@ namespace AGA.Data
         public virtual DbSet<Collaborateur> CollaborateurSet { get; set; }
         public virtual DbSet<AttestationConge> AttestationCongeSet { get; set; }
         public virtual DbSet<NotificationEmail> NotificationEmailSet { get; set; }
+        public virtual DbSet<AutorisationPoursuiteEtudes> AutorisationPoursuiteEtudesSet { get; set; }
+        public virtual DbSet<AutorisationCoursVacation> AutorisationCoursVacationSet { get; set; }
     }
 }
