@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net451": {
+      "wrappedProject": "../../AGA.Data/AGA.Data.csproj",
+      "bin": {
+        "assembly": "../../AGA.Data/obj/{configuration}/AGA.Data.dll",
+        "pdb": "../../AGA.Data/obj/{configuration}/AGA.Data.pdb"
+      },
+      "dependencies": {
+        "EntityFramework": "6.1.3"
+      }
+    }
+  }
+}

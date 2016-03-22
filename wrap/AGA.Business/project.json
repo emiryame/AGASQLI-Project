@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net451": {
+      "wrappedProject": "../../AGA.Business/AGA.Business.csproj",
+      "bin": {
+        "assembly": "../../AGA.Business/obj/{configuration}/AGA.Business.dll",
+        "pdb": "../../AGA.Business/obj/{configuration}/AGA.Business.pdb"
+      },
+      "dependencies": {
+        "AGA.Data": "1.0.0-*",
+        "AGA.Dto": "1.0.0-*"
+      }
+    }
+  }
+}

@@ -1,0 +1,431 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AGADataBase.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="AGADataBaseStoreContainer">
+    <EntitySet Name="DemandeSet" EntityType="AGADataBase.Store.DemandeSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TypeAttestationSet" EntityType="AGADataBase.Store.TypeAttestationSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="StatutSet" EntityType="AGADataBase.Store.StatutSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CollaborateurSet" EntityType="AGADataBase.Store.CollaborateurSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AttestationCongeSet" EntityType="AGADataBase.Store.AttestationCongeSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="NotificationEmailSet" EntityType="AGADataBase.Store.NotificationEmailSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="DemandeTypeAttestation" Association="AGADataBase.Store.DemandeTypeAttestation">
+      <End Role="Demande" EntitySet="DemandeSet" />
+      <End Role="TypeAttestation" EntitySet="TypeAttestationSet" />
+    </AssociationSet>
+    <AssociationSet Name="AttestationCongeDemande" Association="AGADataBase.Store.AttestationCongeDemande">
+      <End Role="AttestationConge" EntitySet="AttestationCongeSet" />
+      <End Role="Demande" EntitySet="DemandeSet" />
+    </AssociationSet>
+    <AssociationSet Name="CollaborateurDemande" Association="AGADataBase.Store.CollaborateurDemande">
+      <End Role="Collaborateur" EntitySet="CollaborateurSet" />
+      <End Role="Demande" EntitySet="DemandeSet" />
+    </AssociationSet>
+    <AssociationSet Name="DemandeStatut" Association="AGADataBase.Store.DemandeStatut">
+      <End Role="Demande" EntitySet="DemandeSet" />
+      <End Role="Statut" EntitySet="StatutSet" />
+    </AssociationSet>
+    <AssociationSet Name="CollaborateurAssistante" Association="AGADataBase.Store.CollaborateurAssistante">
+      <End Role="Collaborateur" EntitySet="CollaborateurSet" />
+      <End Role="Demande" EntitySet="DemandeSet" />
+    </AssociationSet>
+    <AssociationSet Name="EmailContenuDemande" Association="AGADataBase.Store.EmailContenuDemande">
+      <End Role="EmailContenu" EntitySet="NotificationEmailSet" />
+      <End Role="Demande" EntitySet="DemandeSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="DemandeSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dateCreation" Type="datetime" Nullable="false" />
+    <Property Name="dateDebutTraitement" Type="datetime" Nullable="true" />
+    <Property Name="dateFinTraitement" Type="datetime" Nullable="true" />
+    <Property Name="TypeAttestation_id" Type="int" Nullable="false" />
+    <Property Name="Collaborateur_id" Type="int" Nullable="false" />
+    <Property Name="Statut_id" Type="int" Nullable="false" />
+    <Property Name="Assistante_id" Type="int" Nullable="false" />
+    <Property Name="EmailContenu_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TypeAttestationSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="code" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="label" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StatutSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="code" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="label" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CollaborateurSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="prenom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="cin" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="cnss" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="poste" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="dateDebutTravail" Type="datetime" Nullable="true" />
+    <Property Name="banque" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="isEligible" Type="bit" Nullable="false" DefaultValue="true" />
+  </EntityType>
+  <EntityType Name="AttestationCongeSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dateDebut" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="dateFin" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Demande_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NotificationEmailSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="objet" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="contenu" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="DemandeTypeAttestation">
+    <End Role="Demande" Type="AGADataBase.Store.DemandeSet" Multiplicity="*" />
+    <End Role="TypeAttestation" Type="AGADataBase.Store.TypeAttestationSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="TypeAttestation">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Demande">
+        <PropertyRef Name="TypeAttestation_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AttestationCongeDemande">
+    <End Role="AttestationConge" Type="AGADataBase.Store.AttestationCongeSet" Multiplicity="*" />
+    <End Role="Demande" Type="AGADataBase.Store.DemandeSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Demande">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="AttestationConge">
+        <PropertyRef Name="Demande_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CollaborateurDemande">
+    <End Role="Collaborateur" Type="AGADataBase.Store.CollaborateurSet" Multiplicity="1" />
+    <End Role="Demande" Type="AGADataBase.Store.DemandeSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Collaborateur">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Demande">
+        <PropertyRef Name="Collaborateur_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DemandeStatut">
+    <End Role="Demande" Type="AGADataBase.Store.DemandeSet" Multiplicity="*" />
+    <End Role="Statut" Type="AGADataBase.Store.StatutSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Statut">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Demande">
+        <PropertyRef Name="Statut_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CollaborateurAssistante">
+    <End Role="Collaborateur" Type="AGADataBase.Store.CollaborateurSet" Multiplicity="1" />
+    <End Role="Demande" Type="AGADataBase.Store.DemandeSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Collaborateur">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Demande">
+        <PropertyRef Name="Assistante_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EmailContenuDemande">
+    <End Role="EmailContenu" Type="AGADataBase.Store.NotificationEmailSet" Multiplicity="1" />
+    <End Role="Demande" Type="AGADataBase.Store.DemandeSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EmailContenu">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Demande">
+        <PropertyRef Name="EmailContenu_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="AGADataBase" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="AGADataBaseContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DemandeSet" EntityType="AGADataBase.Demande" />
+          <EntitySet Name="TypeAttestationSet" EntityType="AGADataBase.TypeAttestation" />
+          <EntitySet Name="StatutSet" EntityType="AGADataBase.Statut" />
+          <EntitySet Name="CollaborateurSet" EntityType="AGADataBase.Collaborateur" />
+          <EntitySet Name="AttestationCongeSet" EntityType="AGADataBase.AttestationConge" />
+          <AssociationSet Name="DemandeTypeAttestation" Association="AGADataBase.DemandeTypeAttestation">
+            <End Role="Demande" EntitySet="DemandeSet" />
+            <End Role="TypeAttestation" EntitySet="TypeAttestationSet" />
+          </AssociationSet>
+          <AssociationSet Name="AttestationCongeDemande" Association="AGADataBase.AttestationCongeDemande">
+            <End Role="AttestationConge" EntitySet="AttestationCongeSet" />
+            <End Role="Demande" EntitySet="DemandeSet" />
+          </AssociationSet>
+          <AssociationSet Name="CollaborateurDemande" Association="AGADataBase.CollaborateurDemande">
+            <End Role="Collaborateur" EntitySet="CollaborateurSet" />
+            <End Role="Demande" EntitySet="DemandeSet" />
+          </AssociationSet>
+          <AssociationSet Name="DemandeStatut" Association="AGADataBase.DemandeStatut">
+            <End Role="Demande" EntitySet="DemandeSet" />
+            <End Role="Statut" EntitySet="StatutSet" />
+          </AssociationSet>
+          <AssociationSet Name="CollaborateurAssistante" Association="AGADataBase.CollaborateurAssistante">
+            <End Role="Collaborateur" EntitySet="CollaborateurSet" />
+            <End Role="Demande" EntitySet="DemandeSet" />
+          </AssociationSet>
+          <EntitySet Name="NotificationEmailSet" EntityType="AGADataBase.NotificationEmail" />
+          <AssociationSet Name="EmailContenuDemande" Association="AGADataBase.EmailContenuDemande">
+            <End Role="EmailContenu" EntitySet="NotificationEmailSet" />
+            <End Role="Demande" EntitySet="DemandeSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Demande">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateCreation" Type="DateTime" Nullable="false" />
+          <Property Name="DateDebutTraitement" Type="DateTime" Nullable="true" />
+          <Property Name="DateFinTraitement" Type="DateTime" Nullable="true" />
+          <NavigationProperty Name="TypeAttestation" Relationship="AGADataBase.DemandeTypeAttestation" FromRole="Demande" ToRole="TypeAttestation" />
+          <NavigationProperty Name="AttestationConge" Relationship="AGADataBase.AttestationCongeDemande" FromRole="Demande" ToRole="AttestationConge" />
+          <NavigationProperty Name="Collaborateur" Relationship="AGADataBase.CollaborateurDemande" FromRole="Demande" ToRole="Collaborateur" />
+          <NavigationProperty Name="Statut" Relationship="AGADataBase.DemandeStatut" FromRole="Demande" ToRole="Statut" />
+          <NavigationProperty Name="Assistante" Relationship="AGADataBase.CollaborateurAssistante" FromRole="Demande" ToRole="Collaborateur" />
+          <NavigationProperty Name="EmailContenu" Relationship="AGADataBase.EmailContenuDemande" FromRole="Demande" ToRole="EmailContenu" />
+        </EntityType>
+        <EntityType Name="TypeAttestation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" />
+          <Property Name="Label" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Statut">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" />
+          <Property Name="Label" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Collaborateur">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" Nullable="false" />
+          <Property Name="Prenom" Type="String" Nullable="false" />
+          <Property Name="Cin" Type="String" Nullable="true" />
+          <Property Name="Cnss" Type="String" Nullable="true" />
+          <Property Name="Poste" Type="String" Nullable="true" />
+          <Property Name="DateDebutTravail" Type="DateTime" Nullable="true" />
+          <Property Name="Banque" Type="String" Nullable="true" />
+          <Property Name="IsEligible" Type="Boolean" Nullable="false" DefaultValue="true" />
+        </EntityType>
+        <EntityType Name="AttestationConge">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateDebut" Type="String" Nullable="false" />
+          <Property Name="DateFin" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="DemandeTypeAttestation">
+          <End Type="AGADataBase.Demande" Role="Demande" Multiplicity="*" />
+          <End Type="AGADataBase.TypeAttestation" Role="TypeAttestation" Multiplicity="1" />
+        </Association>
+        <Association Name="AttestationCongeDemande">
+          <End Type="AGADataBase.AttestationConge" Role="AttestationConge" Multiplicity="0..1" />
+          <End Type="AGADataBase.Demande" Role="Demande" Multiplicity="1" />
+        </Association>
+        <Association Name="CollaborateurDemande">
+          <End Type="AGADataBase.Collaborateur" Role="Collaborateur" Multiplicity="1" />
+          <End Type="AGADataBase.Demande" Role="Demande" Multiplicity="*" />
+        </Association>
+        <Association Name="DemandeStatut">
+          <End Type="AGADataBase.Demande" Role="Demande" Multiplicity="*" />
+          <End Type="AGADataBase.Statut" Role="Statut" Multiplicity="1" />
+        </Association>
+        <Association Name="CollaborateurAssistante">
+          <End Type="AGADataBase.Collaborateur" Role="Collaborateur" Multiplicity="1" />
+          <End Type="AGADataBase.Demande" Role="Demande" Multiplicity="*" />
+        </Association>
+        <EntityType Name="NotificationEmail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Objet" Type="String" Nullable="false" />
+          <Property Name="Contenu" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="EmailContenuDemande">
+          <End Type="AGADataBase.NotificationEmail" Role="EmailContenu" Multiplicity="1" />
+          <End Type="AGADataBase.Demande" Role="Demande" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AGADataBaseStoreContainer" CdmEntityContainer="AGADataBaseContainer">
+    <EntitySetMapping Name="DemandeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(AGADataBase.Demande)">
+        <MappingFragment StoreEntitySet="DemandeSet">
+          <ScalarProperty Name="Id" ColumnName="id" />
+          <ScalarProperty Name="DateCreation" ColumnName="dateCreation" />
+          <ScalarProperty Name="DateDebutTraitement" ColumnName="dateDebutTraitement" />
+          <ScalarProperty Name="DateFinTraitement" ColumnName="dateFinTraitement" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TypeAttestationSet">
+      <EntityTypeMapping TypeName="IsTypeOf(AGADataBase.TypeAttestation)">
+        <MappingFragment StoreEntitySet="TypeAttestationSet">
+          <ScalarProperty Name="Id" ColumnName="id" />
+          <ScalarProperty Name="Code" ColumnName="code" />
+          <ScalarProperty Name="Label" ColumnName="label" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StatutSet">
+      <EntityTypeMapping TypeName="IsTypeOf(AGADataBase.Statut)">
+        <MappingFragment StoreEntitySet="StatutSet">
+          <ScalarProperty Name="Id" ColumnName="id" />
+          <ScalarProperty Name="Code" ColumnName="code" />
+          <ScalarProperty Name="Label" ColumnName="label" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CollaborateurSet">
+      <EntityTypeMapping TypeName="IsTypeOf(AGADataBase.Collaborateur)">
+        <MappingFragment StoreEntitySet="CollaborateurSet">
+          <ScalarProperty Name="Id" ColumnName="id" />
+          <ScalarProperty Name="Nom" ColumnName="nom" />
+          <ScalarProperty Name="Prenom" ColumnName="prenom" />
+          <ScalarProperty Name="Cin" ColumnName="cin" />
+          <ScalarProperty Name="Cnss" ColumnName="cnss" />
+          <ScalarProperty Name="Poste" ColumnName="poste" />
+          <ScalarProperty Name="DateDebutTravail" ColumnName="dateDebutTravail" />
+          <ScalarProperty Name="Banque" ColumnName="banque" />
+          <ScalarProperty Name="IsEligible" ColumnName="isEligible" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AttestationCongeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(AGADataBase.AttestationConge)">
+        <MappingFragment StoreEntitySet="AttestationCongeSet">
+          <ScalarProperty Name="Id" ColumnName="id" />
+          <ScalarProperty Name="DateDebut" ColumnName="dateDebut" />
+          <ScalarProperty Name="DateFin" ColumnName="dateFin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NotificationEmailSet">
+      <EntityTypeMapping TypeName="IsTypeOf(AGADataBase.NotificationEmail)">
+        <MappingFragment StoreEntitySet="NotificationEmailSet">
+          <ScalarProperty Name="Id" ColumnName="id" />
+          <ScalarProperty Name="Objet" ColumnName="objet" />
+          <ScalarProperty Name="Contenu" ColumnName="contenu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="DemandeTypeAttestation" TypeName="AGADataBase.DemandeTypeAttestation" StoreEntitySet="DemandeSet">
+      <EndProperty Name="TypeAttestation">
+        <ScalarProperty Name="Id" ColumnName="TypeAttestation_id" />
+      </EndProperty>
+      <EndProperty Name="Demande">
+        <ScalarProperty Name="Id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AttestationCongeDemande" TypeName="AGADataBase.AttestationCongeDemande" StoreEntitySet="AttestationCongeSet">
+      <EndProperty Name="Demande">
+        <ScalarProperty Name="Id" ColumnName="Demande_id" />
+      </EndProperty>
+      <EndProperty Name="AttestationConge">
+        <ScalarProperty Name="Id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CollaborateurDemande" TypeName="AGADataBase.CollaborateurDemande" StoreEntitySet="DemandeSet">
+      <EndProperty Name="Collaborateur">
+        <ScalarProperty Name="Id" ColumnName="Collaborateur_id" />
+      </EndProperty>
+      <EndProperty Name="Demande">
+        <ScalarProperty Name="Id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DemandeStatut" TypeName="AGADataBase.DemandeStatut" StoreEntitySet="DemandeSet">
+      <EndProperty Name="Statut">
+        <ScalarProperty Name="Id" ColumnName="Statut_id" />
+      </EndProperty>
+      <EndProperty Name="Demande">
+        <ScalarProperty Name="Id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CollaborateurAssistante" TypeName="AGADataBase.CollaborateurAssistante" StoreEntitySet="DemandeSet">
+      <EndProperty Name="Collaborateur">
+        <ScalarProperty Name="Id" ColumnName="Assistante_id" />
+      </EndProperty>
+      <EndProperty Name="Demande">
+        <ScalarProperty Name="Id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="EmailContenuDemande" TypeName="AGADataBase.EmailContenuDemande" StoreEntitySet="DemandeSet">
+      <EndProperty Name="EmailContenu">
+        <ScalarProperty Name="Id" ColumnName="EmailContenu_id" />
+      </EndProperty>
+      <EndProperty Name="Demande">
+        <ScalarProperty Name="Id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
