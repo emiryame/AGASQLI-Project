@@ -15,7 +15,7 @@ namespace AGA.Data
     public partial class TypeAttestation
     {
         public int Id { get; set; }
-        public string Code { get; set; }
         public string Label { get; set; }
+        public byte[] Template { get; set; }
     }
 }

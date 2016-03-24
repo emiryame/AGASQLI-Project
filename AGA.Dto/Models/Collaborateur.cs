@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AGA.Dto
+namespace AGA.DTO.Models
 {
     public class Collaborateur
     {
@@ -12,7 +12,7 @@ namespace AGA.Dto
         public Collaborateur()
         {
             this.IsEligible = true;
-           
+            Civilite = new Civilite();
         }
 
         public int Id { get; set; }
@@ -24,6 +24,9 @@ namespace AGA.Dto
         public Nullable<System.DateTime> DateDebutTravail { get; set; }
         public string Banque { get; set; }
         public bool IsEligible { get; set; }
+        public string Adresse { get; set; }
+
+        public virtual Civilite Civilite { get; set; }
 
     }
 }

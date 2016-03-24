@@ -15,7 +15,8 @@ namespace AGA.Data
     public partial class Statut
     {
         public int Id { get; set; }
-        public string Code { get; set; }
         public string Label { get; set; }
+    
+        public virtual MailTemplate MailTemplate { get; set; }
     }
 }

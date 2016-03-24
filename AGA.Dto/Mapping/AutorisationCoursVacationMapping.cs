@@ -3,18 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AGA.DTO.Models;
 
-namespace AGA.Dto.Mapping
+namespace AGA.DTO.Mapping
 {
+    /// <summary>
+    /// Classe pour le mapping entre les objets autorisationCoursVacation "Data" et "DTO"
+    /// </summary>
     public static class AutorisationCoursVacationMapping
     {
-        public static Dto.AutorisationCoursVacation EntityToDto(Data.AutorisationCoursVacation autorisationCoursVacation)
+        /// <summary>
+        /// Permet la convertion d'un objet autorisationCoursVacation data en un objet autorisationCousVacation DTO
+        /// </summary>
+        /// <param name="autorisationCoursVacation">autorisationCoursVacation Data</param>
+        /// <returns>autorisationCoursVacation DTO</returns>
+        public static AutorisationCoursVacation EntityToDto(Data.AutorisationCoursVacation autorisationCoursVacation)
         {
-            Dto.AutorisationCoursVacation autorisationCoursVacationDto = new AutorisationCoursVacation();
+            AutorisationCoursVacation autorisationCoursVacationDto = new AutorisationCoursVacation();
 
             autorisationCoursVacationDto.AnneeScolaire = autorisationCoursVacation.AnneeScolaire;
             autorisationCoursVacationDto.Etablissement = autorisationCoursVacation.Etablissement;
             autorisationCoursVacationDto.Id = autorisationCoursVacation.Id;
+
+            autorisationCoursVacationDto.Demande = DemandeMapping.EntityToDto(autorisationCoursVacation.Demande);
 
             return autorisationCoursVacationDto;
         }

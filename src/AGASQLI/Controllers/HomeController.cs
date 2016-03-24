@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
+using AGA.Data;
 
 namespace AGASQLI.Controllers
 {
@@ -10,6 +11,11 @@ namespace AGASQLI.Controllers
     {
         public IActionResult Index()
         {
+            //var cntx = new AGA.Data.AGADataBaseContainer();
+            //Statut tmp = new Statut() { Label = "En attente de traitement" };
+
+            //cntx.StatutSet.Add(tmp);
+            //cntx.SaveChanges();
             return View();
         }
 

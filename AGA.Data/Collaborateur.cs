@@ -29,5 +29,8 @@ namespace AGA.Data
         public Nullable<System.DateTime> DateDebutTravail { get; set; }
         public string Banque { get; set; }
         public bool IsEligible { get; set; }
+        public string Adresse { get; set; }
+    
+        public virtual Civilite Civilite { get; set; }
     }
 }

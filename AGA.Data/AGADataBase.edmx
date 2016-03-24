@@ -11,9 +11,11 @@
     <EntitySet Name="StatutSet" EntityType="AGADataBase.Store.StatutSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CollaborateurSet" EntityType="AGADataBase.Store.CollaborateurSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AttestationCongeSet" EntityType="AGADataBase.Store.AttestationCongeSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="NotificationEmailSet" EntityType="AGADataBase.Store.NotificationEmailSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MailTemplateSet" EntityType="AGADataBase.Store.MailTemplateSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AutorisationPoursuiteEtudesSet" EntityType="AGADataBase.Store.AutorisationPoursuiteEtudesSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AutorisationCoursVacationSet" EntityType="AGADataBase.Store.AutorisationCoursVacationSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CiviliteSet" EntityType="AGADataBase.Store.CiviliteSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="StagiaireSet" EntityType="AGADataBase.Store.StagiaireSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="DemandeTypeAttestation" Association="AGADataBase.Store.DemandeTypeAttestation">
       <End Role="Demande" EntitySet="DemandeSet" />
       <End Role="TypeAttestation" EntitySet="TypeAttestationSet" />
@@ -34,10 +36,6 @@
       <End Role="Collaborateur" EntitySet="CollaborateurSet" />
       <End Role="Demande" EntitySet="DemandeSet" />
     </AssociationSet>
-    <AssociationSet Name="EmailContenuDemande" Association="AGADataBase.Store.EmailContenuDemande">
-      <End Role="EmailContenu" EntitySet="NotificationEmailSet" />
-      <End Role="Demande" EntitySet="DemandeSet" />
-    </AssociationSet>
     <AssociationSet Name="AutorisationCoursVacationDemande" Association="AGADataBase.Store.AutorisationCoursVacationDemande">
       <End Role="AutorisationCoursVacation" EntitySet="AutorisationCoursVacationSet" />
       <End Role="Demande" EntitySet="DemandeSet" />
@@ -45,6 +43,18 @@
     <AssociationSet Name="DemandeAutorisationPoursuiteEtudes" Association="AGADataBase.Store.DemandeAutorisationPoursuiteEtudes">
       <End Role="Demande" EntitySet="DemandeSet" />
       <End Role="AutorisationPoursuiteEtudes" EntitySet="AutorisationPoursuiteEtudesSet" />
+    </AssociationSet>
+    <AssociationSet Name="CollaborateurCivilite" Association="AGADataBase.Store.CollaborateurCivilite">
+      <End Role="Collaborateur" EntitySet="CollaborateurSet" />
+      <End Role="Civilite" EntitySet="CiviliteSet" />
+    </AssociationSet>
+    <AssociationSet Name="StatutMailTemplate" Association="AGADataBase.Store.StatutMailTemplate">
+      <End Role="Statut" EntitySet="StatutSet" />
+      <End Role="MailTemplate" EntitySet="MailTemplateSet" />
+    </AssociationSet>
+    <AssociationSet Name="StagiaireCivilite" Association="AGADataBase.Store.StagiaireCivilite">
+      <End Role="Stagiaire" EntitySet="StagiaireSet" />
+      <End Role="Civilite" EntitySet="CiviliteSet" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="DemandeSet">
@@ -59,23 +69,22 @@
     <Property Name="Collaborateur_Id" Type="int" Nullable="false" />
     <Property Name="Statut_Id" Type="int" Nullable="false" />
     <Property Name="Assistante_Id" Type="int" Nullable="false" />
-    <Property Name="EmailContenu_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="TypeAttestationSet">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Label" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Template" Type="varbinary(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="StatutSet">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Label" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="MailTemplate_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="CollaborateurSet">
     <Key>
@@ -90,6 +99,8 @@
     <Property Name="DateDebutTravail" Type="datetime" Nullable="true" />
     <Property Name="Banque" Type="nvarchar(max)" Nullable="true" />
     <Property Name="IsEligible" Type="bit" Nullable="false" DefaultValue="true" />
+    <Property Name="Adresse" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Civilite_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="AttestationCongeSet">
     <Key>
@@ -98,13 +109,14 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="DateDebut" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DateFin" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="AttestationCongeDemande_AttestationConge_Id" Type="int" Nullable="false" />
+    <Property Name="Demande_Id" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="NotificationEmailSet">
+  <EntityType Name="MailTemplateSet">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Objet" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Contenu" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
@@ -115,7 +127,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Etablissement" Type="nvarchar(max)" Nullable="false" />
     <Property Name="AnneeScolaire" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DemandeAutorisationPoursuiteEtudes_AutorisationPoursuiteEtudes_Id" Type="int" Nullable="false" />
+    <Property Name="Demande_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="AutorisationCoursVacationSet">
     <Key>
@@ -124,7 +136,27 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Etablissement" Type="nvarchar(max)" Nullable="false" />
     <Property Name="AnneeScolaire" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="AutorisationCoursVacationDemande_AutorisationCoursVacation_Id" Type="int" Nullable="false" />
+    <Property Name="Demande_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CiviliteSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Label" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StagiaireSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Prenom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Adresse" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Cin" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="DateDebut" Type="datetime" Nullable="true" />
+    <Property Name="DateFin" Type="datetime" Nullable="true" />
+    <Property Name="Civilite_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="DemandeTypeAttestation">
     <End Role="Demande" Type="AGADataBase.Store.DemandeSet" Multiplicity="*" />
@@ -146,7 +178,7 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="AttestationConge">
-        <PropertyRef Name="AttestationCongeDemande_AttestationConge_Id" />
+        <PropertyRef Name="Demande_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -186,18 +218,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="EmailContenuDemande">
-    <End Role="EmailContenu" Type="AGADataBase.Store.NotificationEmailSet" Multiplicity="1" />
-    <End Role="Demande" Type="AGADataBase.Store.DemandeSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="EmailContenu">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Demande">
-        <PropertyRef Name="EmailContenu_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="AutorisationCoursVacationDemande">
     <End Role="AutorisationCoursVacation" Type="AGADataBase.Store.AutorisationCoursVacationSet" Multiplicity="*" />
     <End Role="Demande" Type="AGADataBase.Store.DemandeSet" Multiplicity="1" />
@@ -206,7 +226,7 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="AutorisationCoursVacation">
-        <PropertyRef Name="AutorisationCoursVacationDemande_AutorisationCoursVacation_Id" />
+        <PropertyRef Name="Demande_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -218,7 +238,43 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="AutorisationPoursuiteEtudes">
-        <PropertyRef Name="DemandeAutorisationPoursuiteEtudes_AutorisationPoursuiteEtudes_Id" />
+        <PropertyRef Name="Demande_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CollaborateurCivilite">
+    <End Role="Collaborateur" Type="AGADataBase.Store.CollaborateurSet" Multiplicity="*" />
+    <End Role="Civilite" Type="AGADataBase.Store.CiviliteSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Civilite">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Collaborateur">
+        <PropertyRef Name="Civilite_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="StatutMailTemplate">
+    <End Role="Statut" Type="AGADataBase.Store.StatutSet" Multiplicity="*" />
+    <End Role="MailTemplate" Type="AGADataBase.Store.MailTemplateSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="MailTemplate">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Statut">
+        <PropertyRef Name="MailTemplate_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="StagiaireCivilite">
+    <End Role="Stagiaire" Type="AGADataBase.Store.StagiaireSet" Multiplicity="*" />
+    <End Role="Civilite" Type="AGADataBase.Store.CiviliteSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Civilite">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Stagiaire">
+        <PropertyRef Name="Civilite_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -252,11 +308,7 @@
             <End Role="Collaborateur" EntitySet="CollaborateurSet" />
             <End Role="Demande" EntitySet="DemandeSet" />
           </AssociationSet>
-          <EntitySet Name="NotificationEmailSet" EntityType="AGADataBase.NotificationEmail" />
-          <AssociationSet Name="EmailContenuDemande" Association="AGADataBase.EmailContenuDemande">
-            <End Role="EmailContenu" EntitySet="NotificationEmailSet" />
-            <End Role="Demande" EntitySet="DemandeSet" />
-          </AssociationSet>
+          <EntitySet Name="MailTemplateSet" EntityType="AGADataBase.MailTemplate" />
           <EntitySet Name="AutorisationPoursuiteEtudesSet" EntityType="AGADataBase.AutorisationPoursuiteEtudes" />
           <EntitySet Name="AutorisationCoursVacationSet" EntityType="AGADataBase.AutorisationCoursVacation" />
           <AssociationSet Name="AutorisationCoursVacationDemande" Association="AGADataBase.AutorisationCoursVacationDemande">
@@ -267,7 +319,21 @@
             <End Role="Demande" EntitySet="DemandeSet" />
             <End Role="AutorisationPoursuiteEtudes" EntitySet="AutorisationPoursuiteEtudesSet" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="CiviliteSet" EntityType="AGADataBase.Civilite" />
+          <AssociationSet Name="CollaborateurCivilite" Association="AGADataBase.CollaborateurCivilite">
+            <End EntitySet="CollaborateurSet" Role="Collaborateur" />
+            <End EntitySet="CiviliteSet" Role="Civilite" />
+          </AssociationSet>
+          <AssociationSet Name="StatutMailTemplate" Association="AGADataBase.StatutMailTemplate">
+            <End Role="Statut" EntitySet="StatutSet" />
+            <End Role="MailTemplate" EntitySet="MailTemplateSet" />
+          </AssociationSet>
+          <EntitySet Name="StagiaireSet" EntityType="AGADataBase.Stagiaire" />
+          <AssociationSet Name="StagiaireCivilite" Association="AGADataBase.StagiaireCivilite">
+            <End Role="Stagiaire" EntitySet="StagiaireSet" />
+            <End Role="Civilite" EntitySet="CiviliteSet" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Demande">
           <Key>
             <PropertyRef Name="Id" />
@@ -277,29 +343,25 @@
           <Property Name="DateDebutTraitement" Type="DateTime" Nullable="true" />
           <Property Name="DateFinTraitement" Type="DateTime" Nullable="true" />
           <NavigationProperty Name="TypeAttestation" Relationship="AGADataBase.DemandeTypeAttestation" FromRole="Demande" ToRole="TypeAttestation" />
-          <NavigationProperty Name="AttestationConge" Relationship="AGADataBase.AttestationCongeDemande" FromRole="Demande" ToRole="AttestationConge" />
           <NavigationProperty Name="Collaborateur" Relationship="AGADataBase.CollaborateurDemande" FromRole="Demande" ToRole="Collaborateur" />
           <NavigationProperty Name="Statut" Relationship="AGADataBase.DemandeStatut" FromRole="Demande" ToRole="Statut" />
           <NavigationProperty Name="Assistante" Relationship="AGADataBase.CollaborateurAssistante" FromRole="Demande" ToRole="Collaborateur" />
-          <NavigationProperty Name="EmailContenu" Relationship="AGADataBase.EmailContenuDemande" FromRole="Demande" ToRole="EmailContenu" />
-          <NavigationProperty Name="AutorisationCoursVacation" Relationship="AGADataBase.AutorisationCoursVacationDemande" FromRole="Demande" ToRole="AutorisationCoursVacation" />
-          <NavigationProperty Name="AutorisationPoursuiteEtudes" Relationship="AGADataBase.DemandeAutorisationPoursuiteEtudes" FromRole="Demande" ToRole="AutorisationPoursuiteEtudes" />
         </EntityType>
         <EntityType Name="TypeAttestation">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" Nullable="false" />
           <Property Name="Label" Type="String" Nullable="false" />
+          <Property Name="Template" Type="Binary" Nullable="true" />
         </EntityType>
         <EntityType Name="Statut">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" Nullable="false" />
           <Property Name="Label" Type="String" Nullable="false" />
+          <NavigationProperty Name="MailTemplate" Relationship="AGADataBase.StatutMailTemplate" FromRole="Statut" ToRole="MailTemplate" />
         </EntityType>
         <EntityType Name="Collaborateur">
           <Key>
@@ -314,6 +376,8 @@
           <Property Name="DateDebutTravail" Type="DateTime" Nullable="true" />
           <Property Name="Banque" Type="String" Nullable="true" />
           <Property Name="IsEligible" Type="Boolean" Nullable="false" DefaultValue="true" />
+          <NavigationProperty Name="Civilite" Relationship="AGADataBase.CollaborateurCivilite" FromRole="Collaborateur" ToRole="Civilite" />
+          <Property Name="Adresse" Type="String" Nullable="true" />
         </EntityType>
         <EntityType Name="AttestationConge">
           <Key>
@@ -322,6 +386,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DateDebut" Type="String" Nullable="false" />
           <Property Name="DateFin" Type="String" Nullable="false" />
+          <NavigationProperty Name="Demande" Relationship="AGADataBase.AttestationCongeDemande" FromRole="AttestationConge" ToRole="Demande" />
         </EntityType>
         <Association Name="DemandeTypeAttestation">
           <End Type="AGADataBase.Demande" Role="Demande" Multiplicity="*" />
@@ -343,18 +408,15 @@
           <End Type="AGADataBase.Collaborateur" Role="Collaborateur" Multiplicity="1" />
           <End Type="AGADataBase.Demande" Role="Demande" Multiplicity="*" />
         </Association>
-        <EntityType Name="NotificationEmail">
+        <EntityType Name="MailTemplate">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" />
+          <Property Name="Code" Type="String" Nullable="false" />
           <Property Name="Objet" Type="String" Nullable="false" />
           <Property Name="Contenu" Type="String" Nullable="false" />
         </EntityType>
-        <Association Name="EmailContenuDemande">
-          <End Type="AGADataBase.NotificationEmail" Role="EmailContenu" Multiplicity="1" />
-          <End Type="AGADataBase.Demande" Role="Demande" Multiplicity="*" />
-        </Association>
         <EntityType Name="AutorisationPoursuiteEtudes">
           <Key>
             <PropertyRef Name="Id" />
@@ -362,6 +424,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Etablissement" Type="String" Nullable="false" />
           <Property Name="AnneeScolaire" Type="String" Nullable="false" />
+          <NavigationProperty Name="Demande" Relationship="AGADataBase.DemandeAutorisationPoursuiteEtudes" FromRole="AutorisationPoursuiteEtudes" ToRole="Demande" />
         </EntityType>
         <EntityType Name="AutorisationCoursVacation">
           <Key>
@@ -370,6 +433,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Etablissement" Type="String" Nullable="false" />
           <Property Name="AnneeScolaire" Type="String" Nullable="false" />
+          <NavigationProperty Name="Demande" Relationship="AGADataBase.AutorisationCoursVacationDemande" FromRole="AutorisationCoursVacation" ToRole="Demande" />
         </EntityType>
         <Association Name="AutorisationCoursVacationDemande">
           <End Type="AGADataBase.AutorisationCoursVacation" Role="AutorisationCoursVacation" Multiplicity="0..1" />
@@ -378,6 +442,38 @@
         <Association Name="DemandeAutorisationPoursuiteEtudes">
           <End Type="AGADataBase.Demande" Role="Demande" Multiplicity="1" />
           <End Type="AGADataBase.AutorisationPoursuiteEtudes" Role="AutorisationPoursuiteEtudes" Multiplicity="0..1" />
+        </Association>
+        <EntityType Name="Civilite">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="Label" Nullable="false" Type="String" />
+        </EntityType>
+        <Association Name="CollaborateurCivilite">
+          <End Type="AGADataBase.Collaborateur" Multiplicity="*" Role="Collaborateur" />
+          <End Type="AGADataBase.Civilite" Multiplicity="1" Role="Civilite" />
+        </Association>
+        <Association Name="StatutMailTemplate">
+          <End Type="AGADataBase.Statut" Role="Statut" Multiplicity="0..1" />
+          <End Type="AGADataBase.MailTemplate" Role="MailTemplate" Multiplicity="1" />
+        </Association>
+        <EntityType Name="Stagiaire">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" Nullable="false" />
+          <Property Name="Prenom" Type="String" Nullable="false" />
+          <Property Name="Adresse" Type="String" Nullable="true" />
+          <Property Name="Cin" Type="String" Nullable="true" />
+          <Property Name="DateDebut" Type="DateTime" Nullable="true" />
+          <Property Name="DateFin" Type="DateTime" Nullable="true" />
+          <NavigationProperty Name="Civilite" Relationship="AGADataBase.StagiaireCivilite" FromRole="Stagiaire" ToRole="Civilite" />
+        </EntityType>
+        <Association Name="StagiaireCivilite">
+          <End Type="AGADataBase.Stagiaire" Role="Stagiaire" Multiplicity="*" />
+          <End Type="AGADataBase.Civilite" Role="Civilite" Multiplicity="1" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -399,8 +495,8 @@
       <EntityTypeMapping TypeName="IsTypeOf(AGADataBase.TypeAttestation)">
         <MappingFragment StoreEntitySet="TypeAttestationSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="Label" ColumnName="Label" />
+          <ScalarProperty Name="Template" ColumnName="Template" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -408,7 +504,6 @@
       <EntityTypeMapping TypeName="IsTypeOf(AGADataBase.Statut)">
         <MappingFragment StoreEntitySet="StatutSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="Label" ColumnName="Label" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -425,6 +520,7 @@
           <ScalarProperty Name="DateDebutTravail" ColumnName="DateDebutTravail" />
           <ScalarProperty Name="Banque" ColumnName="Banque" />
           <ScalarProperty Name="IsEligible" ColumnName="IsEligible" />
+          <ScalarProperty Name="Adresse" ColumnName="Adresse" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -437,10 +533,11 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="NotificationEmailSet">
-      <EntityTypeMapping TypeName="IsTypeOf(AGADataBase.NotificationEmail)">
-        <MappingFragment StoreEntitySet="NotificationEmailSet">
+    <EntitySetMapping Name="MailTemplateSet">
+      <EntityTypeMapping TypeName="IsTypeOf(AGADataBase.MailTemplate)">
+        <MappingFragment StoreEntitySet="MailTemplateSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="Objet" ColumnName="Objet" />
           <ScalarProperty Name="Contenu" ColumnName="Contenu" />
         </MappingFragment>
@@ -464,6 +561,27 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="CiviliteSet">
+      <EntityTypeMapping TypeName="IsTypeOf(AGADataBase.Civilite)">
+        <MappingFragment StoreEntitySet="CiviliteSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Label" ColumnName="Label" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StagiaireSet">
+      <EntityTypeMapping TypeName="IsTypeOf(AGADataBase.Stagiaire)">
+        <MappingFragment StoreEntitySet="StagiaireSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+          <ScalarProperty Name="Adresse" ColumnName="Adresse" />
+          <ScalarProperty Name="Cin" ColumnName="Cin" />
+          <ScalarProperty Name="DateDebut" ColumnName="DateDebut" />
+          <ScalarProperty Name="DateFin" ColumnName="DateFin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="DemandeTypeAttestation" TypeName="AGADataBase.DemandeTypeAttestation" StoreEntitySet="DemandeSet">
       <EndProperty Name="TypeAttestation">
         <ScalarProperty Name="Id" ColumnName="TypeAttestation_Id" />
@@ -474,7 +592,7 @@
     </AssociationSetMapping>
     <AssociationSetMapping Name="AttestationCongeDemande" TypeName="AGADataBase.AttestationCongeDemande" StoreEntitySet="AttestationCongeSet">
       <EndProperty Name="Demande">
-        <ScalarProperty Name="Id" ColumnName="AttestationCongeDemande_AttestationConge_Id" />
+        <ScalarProperty Name="Id" ColumnName="Demande_Id" />
       </EndProperty>
       <EndProperty Name="AttestationConge">
         <ScalarProperty Name="Id" ColumnName="Id" />
@@ -504,17 +622,9 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="EmailContenuDemande" TypeName="AGADataBase.EmailContenuDemande" StoreEntitySet="DemandeSet">
-      <EndProperty Name="EmailContenu">
-        <ScalarProperty Name="Id" ColumnName="EmailContenu_Id" />
-      </EndProperty>
-      <EndProperty Name="Demande">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
     <AssociationSetMapping Name="AutorisationCoursVacationDemande" TypeName="AGADataBase.AutorisationCoursVacationDemande" StoreEntitySet="AutorisationCoursVacationSet">
       <EndProperty Name="Demande">
-        <ScalarProperty Name="Id" ColumnName="AutorisationCoursVacationDemande_AutorisationCoursVacation_Id" />
+        <ScalarProperty Name="Id" ColumnName="Demande_Id" />
       </EndProperty>
       <EndProperty Name="AutorisationCoursVacation">
         <ScalarProperty Name="Id" ColumnName="Id" />
@@ -522,9 +632,33 @@
     </AssociationSetMapping>
     <AssociationSetMapping Name="DemandeAutorisationPoursuiteEtudes" TypeName="AGADataBase.DemandeAutorisationPoursuiteEtudes" StoreEntitySet="AutorisationPoursuiteEtudesSet">
       <EndProperty Name="Demande">
-        <ScalarProperty Name="Id" ColumnName="DemandeAutorisationPoursuiteEtudes_AutorisationPoursuiteEtudes_Id" />
+        <ScalarProperty Name="Id" ColumnName="Demande_Id" />
       </EndProperty>
       <EndProperty Name="AutorisationPoursuiteEtudes">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CollaborateurCivilite" TypeName="AGADataBase.CollaborateurCivilite" StoreEntitySet="CollaborateurSet">
+      <EndProperty Name="Civilite">
+        <ScalarProperty Name="Id" ColumnName="Civilite_Id" />
+      </EndProperty>
+      <EndProperty Name="Collaborateur">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="StatutMailTemplate" TypeName="AGADataBase.StatutMailTemplate" StoreEntitySet="StatutSet">
+      <EndProperty Name="MailTemplate">
+        <ScalarProperty Name="Id" ColumnName="MailTemplate_Id" />
+      </EndProperty>
+      <EndProperty Name="Statut">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="StagiaireCivilite" TypeName="AGADataBase.StagiaireCivilite" StoreEntitySet="StagiaireSet">
+      <EndProperty Name="Civilite">
+        <ScalarProperty Name="Id" ColumnName="Civilite_Id" />
+      </EndProperty>
+      <EndProperty Name="Stagiaire">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

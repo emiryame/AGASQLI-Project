@@ -20,12 +20,8 @@ namespace AGA.Data
         public Nullable<System.DateTime> DateFinTraitement { get; set; }
     
         public virtual TypeAttestation TypeAttestation { get; set; }
-        public virtual AttestationConge AttestationConge { get; set; }
         public virtual Collaborateur Collaborateur { get; set; }
         public virtual Statut Statut { get; set; }
         public virtual Collaborateur Assistante { get; set; }
-        public virtual NotificationEmail EmailContenu { get; set; }
-        public virtual AutorisationCoursVacation AutorisationCoursVacation { get; set; }
-        public virtual AutorisationPoursuiteEtudes AutorisationPoursuiteEtudes { get; set; }
     }
 }

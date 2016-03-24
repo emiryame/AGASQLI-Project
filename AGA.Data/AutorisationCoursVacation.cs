@@ -17,5 +17,7 @@ namespace AGA.Data
         public int Id { get; set; }
         public string Etablissement { get; set; }
         public string AnneeScolaire { get; set; }
+    
+        public virtual Demande Demande { get; set; }
     }
 }

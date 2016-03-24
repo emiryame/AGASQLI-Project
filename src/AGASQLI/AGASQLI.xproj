@@ -20,8 +20,7 @@
     <DnxInvisibleContent Include="package.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AGA.Business\AGA.Business.csproj" />
-    <ProjectReference Include="..\..\AGA.Dto\AGA.Dto.csproj" />
+    <ProjectReference Include="..\..\AGA.Data\AGA.Data.csproj" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>

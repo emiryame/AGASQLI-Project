@@ -3,17 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace AGA.Dto.Mapping
+using AGA.DTO.Models;
+
+namespace AGA.DTO.Mapping
 {
+    /// <summary>
+    /// Classe pour le mapping entre les objets attestationConge "Data" et "DTO"
+    /// </summary>
     public static class AttestationCongeMapping
     {
-        public static Dto.AttestationConge EntityToDto(Data.AttestationConge attestationConge)
+        /// <summary>
+        /// Permet la convertion d'un objet attestationConge data en un objet attestationConge DTO
+        /// </summary>
+        /// <param name="attestationConge">attestationConge "Data"</param>
+        /// <returns>L'objet attestationCong DTO</returns>
+        public static AttestationConge EntityToDto(Data.AttestationConge attestationConge)
         {
-            Dto.AttestationConge attestationCongeDto = new AttestationConge();
+            AttestationConge attestationCongeDto = new AttestationConge();
 
             attestationCongeDto.DateDebut = attestationConge.DateDebut;
             attestationCongeDto.DateFin = attestationConge.DateFin;
             attestationCongeDto.Id = attestationConge.Id;
+            attestationCongeDto.Demande = DemandeMapping.EntityToDto(attestationConge.Demande);
 
             return attestationCongeDto;
         }

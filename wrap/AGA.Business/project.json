@@ -9,7 +9,11 @@
       },
       "dependencies": {
         "AGA.Data": "1.0.0-*",
-        "AGA.Dto": "1.0.0-*"
+        "AGA.Dto": "1.0.0-*",
+        "DocumentFormat.OpenXml": "2.5",
+        "Microsoft.Office.Interop.Word": "15.0.4797.1003",
+        "DocX": "1.0.0-*",
+        "EntityFramework": "1.0.0-*"
       }
     }
   }

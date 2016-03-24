@@ -17,5 +17,7 @@ namespace AGA.Data
         public int Id { get; set; }
         public string DateDebut { get; set; }
         public string DateFin { get; set; }
+    
+        public virtual Demande Demande { get; set; }
     }
 }

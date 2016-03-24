@@ -7,8 +7,8 @@
     <ProjectGuid>{3FB72C65-3DC1-439F-9878-B74CC511B84E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AGA.Dto</RootNamespace>
-    <AssemblyName>AGA.Dto</AssemblyName>
+    <RootNamespace>AGA.DTO</RootNamespace>
+    <AssemblyName>AGA.DTO</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -42,17 +42,21 @@
   <ItemGroup>
     <Compile Include="Mapping\AutorisationCoursVacationMapping.cs" />
     <Compile Include="Mapping\AutorisationPoursuiteEtudesMapping.cs" />
+    <Compile Include="Mapping\CiviliteMapping.cs" />
     <Compile Include="Mapping\CollaborateurMapping.cs" />
     <Compile Include="Mapping\DemandeMapping.cs" />
-    <Compile Include="Mapping\NotificationEmailMapping.cs" />
+    <Compile Include="Mapping\MailTemplateMapping.cs" />
+    <Compile Include="Mapping\StagiaireMapping.cs" />
     <Compile Include="Mapping\StatutMapping.cs" />
     <Compile Include="Mapping\TypeAttestationMapping.cs" />
     <Compile Include="Models\AttestationConge.cs" />
     <Compile Include="Models\AutorisationCoursVacation.cs" />
     <Compile Include="Models\AutorisationPoursuiteEtudes.cs" />
+    <Compile Include="Models\Civilite.cs" />
     <Compile Include="Models\Collaborateur.cs" />
     <Compile Include="Models\Demande.cs" />
-    <Compile Include="Models\NotificationEmail.cs" />
+    <Compile Include="Models\MailTemplate.cs" />
+    <Compile Include="Models\Stagiaire.cs" />
     <Compile Include="Models\Statut.cs" />
     <Compile Include="Models\TypeAttestation.cs" />
     <Compile Include="Mapping\AttestationCongeMapping.cs" />

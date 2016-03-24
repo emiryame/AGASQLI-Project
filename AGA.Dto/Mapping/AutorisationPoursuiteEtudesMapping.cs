@@ -3,18 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AGA.DTO.Models;
 
-namespace AGA.Dto.Mapping
+namespace AGA.DTO.Mapping
 {
+    /// <summary>
+    /// Classe pour le mapping entre les objets autorisationPoursuiteEtudes "Data" et "DTO"
+    /// </summary>
     public static class AutorisationPoursuiteEtudesMapping
     {
-        public static Dto.AutorisationPoursuiteEtudes EntityToDto(Data.AutorisationPoursuiteEtudes autorisationPoursuiteEtudes)
+        /// <summary>
+        /// Permet la convertion d'un objet autorisationPoursuiteEtudes data en un objet autorisationPoursuiteEtudes DTO
+        /// </summary>
+        /// <param name="autorisationPoursuiteEtudes">autorisationPoursuiteEtudes Data</param>
+        /// <returns>autorisationPoursuiteEtudes DTO</returns>
+        public static AutorisationPoursuiteEtudes EntityToDto(Data.AutorisationPoursuiteEtudes autorisationPoursuiteEtudes)
         {
-            Dto.AutorisationPoursuiteEtudes autorisationPoursuiteEtudesDto = new AutorisationPoursuiteEtudes();
+            AutorisationPoursuiteEtudes autorisationPoursuiteEtudesDto = new AutorisationPoursuiteEtudes();
 
             autorisationPoursuiteEtudesDto.AnneeScolaire = autorisationPoursuiteEtudes.AnneeScolaire;
             autorisationPoursuiteEtudesDto.Etablissement = autorisationPoursuiteEtudes.Etablissement;
             autorisationPoursuiteEtudesDto.Id = autorisationPoursuiteEtudes.Id;
+            autorisationPoursuiteEtudesDto.Demande = DemandeMapping.EntityToDto(autorisationPoursuiteEtudes.Demande);
 
             return autorisationPoursuiteEtudesDto;
         }

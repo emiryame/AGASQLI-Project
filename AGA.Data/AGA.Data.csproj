@@ -76,16 +76,22 @@
     <Compile Include="AutorisationPoursuiteEtudes.cs">
       <DependentUpon>AGADataBase.tt</DependentUpon>
     </Compile>
+    <Compile Include="Civilite.cs">
+      <DependentUpon>AGADataBase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Collaborateur.cs">
       <DependentUpon>AGADataBase.tt</DependentUpon>
     </Compile>
     <Compile Include="Demande.cs">
       <DependentUpon>AGADataBase.tt</DependentUpon>
     </Compile>
-    <Compile Include="NotificationEmail.cs">
+    <Compile Include="MailTemplate.cs">
       <DependentUpon>AGADataBase.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Stagiaire.cs">
+      <DependentUpon>AGADataBase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Statut.cs">
       <DependentUpon>AGADataBase.tt</DependentUpon>
     </Compile>
@@ -101,7 +107,9 @@
     <None Include="AGADataBase.edmx.diagram">
       <DependentUpon>AGADataBase.edmx</DependentUpon>
     </None>
-    <None Include="App.Config" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
